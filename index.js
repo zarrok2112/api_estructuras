@@ -4,6 +4,7 @@ const {dbConnection} = require("./database/config.js")
 
 // crear express app
 const app = express();
+const port = process.env.PORT || 3000;
 
 //base de datos
 dbConnection();
