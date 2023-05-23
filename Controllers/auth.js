@@ -1,5 +1,5 @@
 const express = require('express');
-const { validationResult } = require('express-validator');
+const bcrypt = require('bcryptjs');
 const Usuario = require('../models/Usuario')
 
 const crearUsuario = async (req, res = express.Request) => {
@@ -12,7 +12,10 @@ const crearUsuario = async (req, res = express.Request) => {
                 msg: 'El usuario con ese correo ya existe'
             })
         }
+        
         usuario = new Usuario(req.body);
+        const salt = bcrypt.genSaltSync();
+        usuario.password = bcrypt.hashSync(password, salt);
         await usuario.save();
 
         res.status(200).json({
