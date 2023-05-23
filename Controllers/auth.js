@@ -70,10 +70,14 @@ const login = async(req, res = express.response) => {
 }
 
 const renewToken = async(req, res = express.response) => {
-    return res.json({
-        ok: true,
-        msg: 'renew'
-    });
+    const {uid, name} = req
+
+    const token = await(generarJWT(uid, name))
+
+    res.json({
+        ok:true,
+        token
+    })
 }
 
 module.exports = {
