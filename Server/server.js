@@ -47,6 +47,10 @@ class Server {
             console.log('El servidor está corriendo en el puerto: ', process.env.PORT)
         })
     }
+
+    sockets(){
+        this.io.on('connection', (socket) => socketController(socket, this.io))
+    }
 }
 
 module.exports = Server
