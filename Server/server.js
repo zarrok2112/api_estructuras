@@ -32,9 +32,6 @@ class Server {
     setRoutes(){
         this.app.use(this.paths.auth, require('../routes/auth'))
         this.app.use(this.paths.task, require('../routes/task'))
-        this.app.use("/", (req, res) => {
-            res.send("Hola mundo")
-            })
         }
 
     listen() {
