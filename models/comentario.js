@@ -1,18 +1,13 @@
-const {schema, model} = require('mongoose');
+const {Schema, model} = require('mongoose');
 
-const ComentarioSchema = schema({
+const ComentarioSchema = Schema({
     comentario: {
         type: String,
         required: true
     },
     usuario: {
-        type: schema.Types.ObjectId,
+        type: Number,
         ref: 'Usuario',
-        required: true
-    },
-    post: {
-        type: schema.Types.ObjectId,
-        ref: 'Post',
         required: true
     },
     likes: {
@@ -23,4 +18,6 @@ const ComentarioSchema = schema({
         type: Number,
         default: 0
     }
+
+    
 });

@@ -1,13 +1,13 @@
-const {schema, model} = require('mongoose');
+const {Schema, model} = require('mongoose');
 
-const RelationShipSchema = schema({
+const RelationShipSchema = Schema({
     user: {
-        type: schema.Types.ObjectId,
+        type: Number,
         ref: 'User',
         required: true
     },
     friend: {
-        type: schema.Types.ObjectId,
+        type: Number,
         ref: 'User',
         required: true
     },
