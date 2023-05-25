@@ -6,7 +6,7 @@ const { crearUsuario, login, renewToken } = require('../Controllers/auth');
 const { validarJWT } = require('../middleware/validar-token.js')
 
 router.post(
-    '/new'
+    '/registrar'
     , [
         check("name", "El nombre es obligatorio").not().isEmpty(),
         check("email", "El email es obligatorio").isEmail(),
@@ -16,6 +16,6 @@ router.post(
     crearUsuario)
 router.put('/renew', renewToken, validarJWT);
 
-router.get('/', login);
+router.post('/login', login);
 
 module.exports = router;
