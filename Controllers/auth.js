@@ -44,7 +44,7 @@ const login = async(req, res = express.response) => {
                 msg:'El usuario NO existe'
             })
         }
-
+        console.log(password)
         const passwordValid = bcrypt.compareSync(password, usuario.password);
         if(!passwordValid){
             return res.status(400).json({
