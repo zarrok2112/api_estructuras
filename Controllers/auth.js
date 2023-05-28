@@ -33,11 +33,11 @@ const crearUsuario = async (req, res = express.Request) => {
 };
 
 const login = async(req, res = express.response) => {
-    const{email, password} = req.body
+    const{user, password} = req.body
 
     try{
 
-        let usuario = await Usuario.findOne({email:email})
+        let usuario = await Usuario.findOne({user:user})
         if(!usuario){
             return res.status(400).json({
                 ok:false,
