@@ -1,7 +1,11 @@
 const express = require('express')
-const router = express.Router();
 const { validarJWT } = require('../middleware/validar-token')
-const {addPublication,
+const express = require('express');
+const router = express.Router();
+const { check } = require("express-validator")
+const { validarCampos } = require("../middleware/validar-campos.js")
+const { validarJWT } = require('../middleware/validar-token.js')
+const {   addPublication,
     getPublications,
     deletePublication,
     addLike,
