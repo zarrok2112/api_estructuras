@@ -1,3 +1,5 @@
+const express = require('express')
+const { validarJWT } = require('../middleware/validar-token')
 const express = require('express');
 const router = express.Router();
 const { check } = require("express-validator")
@@ -9,16 +11,14 @@ const {   addPublication,
     addLike,
     addFriend,
     getFriends,
-    deleteFriend } = require('../Controllers/social');
+    deleteFriend} = require('../Controllers/social')
 
-router.post(
-    '/registrar'
-    , [
-        check("name", "El nombre es obligatorio").not().isEmpty(),
-        check("email", "El email es obligatorio").isEmail(),
-        check("password", "El password debe de ser de 8 caracteres").isLength({ min: 8 }),
-        validarCampos
-    ],
-    addPublication)
+router.use(validarJWT)
 
-module.exports = router;
+router.post('/addPublication', addPublication)
+router.get('/getPublications', getPublications)
+router.delete('/deletePublication/:id', deletePublication)
+router.put('/addLike/:id', addLike)
+router.put('/addFriend/:userId/:friendId', addFriend)
+router.get('/getFriends/:userId', getFriends)
+router.delete('/deleteFriend/:userId/:friendId', deleteFriend)

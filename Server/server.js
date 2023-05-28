@@ -39,8 +39,7 @@ class Server {
         this.app.use(this.paths.auth, require('../routes/auth'))
         this.app.use(this.paths.task, require('../routes/task'))
         this.app.use(this.paths.social, require('../routes/social'))
-        }
-
+    }
     listen(){
         this.app.listen(this.port,() => {
             console.log('El servidor está corriendo en el puerto: ', process.env.PORT)

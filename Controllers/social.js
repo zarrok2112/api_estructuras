@@ -203,12 +203,12 @@ const deleteFriend = async (req, res) => {
         }
     }
 
-   module.exports = {
-    addPublication,
-    getPublications,
-    deletePublication,
-    addLike,
-    addFriend,
-    getFriends,
-    deleteFriend
-   }
+    module.exports = {
+        addPublication,
+        getPublications,
+        deletePublication,
+        addLike,
+        addFriend,
+        getFriends,
+        deleteFriend
+    }
