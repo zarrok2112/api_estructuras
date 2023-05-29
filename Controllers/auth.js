@@ -20,7 +20,7 @@ const crearUsuario = async (req, res = express.Request) => {
         await usuario.save();
 
         res.status(200).json({
-            ok: true,
+            meg : 'Usuario creado correctamente',
             usuario
         })
     } catch(error){

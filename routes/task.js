@@ -7,7 +7,7 @@ router.use(validarJWT)
 
 router.get('/', listarTasks)
 router.post('/', crearTask)
-router.put('/:id', actualizarTask)
-router.delete('/:id', eliminarTask)
+//router.put('/:id', actualizarTask)
+//router.delete('/:id', eliminarTask)
 
 module.exports = router;

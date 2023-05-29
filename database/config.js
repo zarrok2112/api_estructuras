@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const dbConnection = async () => {
     try {
-        await mongoose.connect("mongodb+srv://zarrok:123sofia321@cluster0.ifo1ean.mongodb.net/RickAndMorty", {
+        await mongoose.connect(process.env.DB_CONNECT, {
             autoIndex: true,
         });
         console.log("DB online")
