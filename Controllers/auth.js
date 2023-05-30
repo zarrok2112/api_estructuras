@@ -49,13 +49,16 @@ const login = async(req, res = express.response) => {
             return res.status(400).json({
                 ok:false,
                 msg:'La contraseña NO es valido'
+                
             })
         }
         const token = await(generarJWT(usuario.id, usuario.name))
 
         res.status(200).json({
             ok: true,
-            token
+            token,
+            name:usuario.name,
+            email:usuario.email
         })
     } catch(error){
         console.log(error)
