@@ -55,7 +55,6 @@ const login = async(req, res = express.response) => {
 
         res.status(200).json({
             ok: true,
-            usuario,
             token
         })
     } catch(error){
