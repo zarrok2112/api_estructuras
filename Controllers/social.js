@@ -3,14 +3,13 @@ const Usuario = require('../models/Usuario')
 const relationShip = require('../models/relationShip');
 
 const addPublication = async (req, res = express.request) => { 
-    const{title, description} = req.body;
+    const{description} = req.body;
     const{uid, name} = req;
     const user = await Usuario.findById(uid);
     const nameUser = user.name;
 
     try{
         const publication = new ComentarioScheme({
-            title: title,
             description: description,
             usuario:uid
         });
@@ -19,9 +18,8 @@ const addPublication = async (req, res = express.request) => {
 
         console.log(uid);
         return res.status(200).json({
-            name:nameUser,
-            title: title,
-            descripcion:description
+            ok:true,
+            msg:'Publicación creada correctamente',
             });
     }catch(err){
         console.log(err);
