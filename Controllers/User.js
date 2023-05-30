@@ -1,7 +1,7 @@
 const Usuario = require('../models/Usuario')
 
 const listarUsuarios = async (req, res = express.request) => {
-    const usuarios = await Usuario.find().populate('tareas', 'title')
+    const usuarios = await Usuario.find()
 
     try{
         res.status(200).json({
