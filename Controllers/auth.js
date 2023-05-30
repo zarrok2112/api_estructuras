@@ -17,6 +17,7 @@ const crearUsuario = async (req, res = express.Request) => {
         usuario = new Usuario(req.body);
         const salt = bcrypt.genSaltSync();
         usuario.password = bcrypt.hashSync(password, salt);
+        console.log(usuario.password);
         await usuario.save();
 
         res.status(200).json({
@@ -33,18 +34,16 @@ const crearUsuario = async (req, res = express.Request) => {
 };
 
 const login = async(req, res = express.response) => {
-    const{user, password} = req.body
-
+    const{email, password} = req.body
     try{
-
-        let usuario = await Usuario.findOne({user:user})
+        console.log(email)
+        let usuario = await Usuario.findOne({email})
         if(!usuario){
             return res.status(400).json({
                 ok:false,
                 msg:'El usuario NO existe'
             })
         }
-
         const passwordValid = bcrypt.compareSync(password, usuario.password);
         if(!passwordValid){
             return res.status(400).json({
@@ -52,12 +51,10 @@ const login = async(req, res = express.response) => {
                 msg:'La contraseña NO es valido'
             })
         }
-
         const token = await(generarJWT(usuario.id, usuario.name))
 
         res.status(200).json({
             ok: true,
-            usuario,
             token
         })
     } catch(error){
