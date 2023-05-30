@@ -5,6 +5,7 @@ const { check } = require("express-validator");
 const { validarCampos } = require("../middleware/validar-campos.js");
 const {   addPublication,
     getPublications,
+    getPublicacionesPorId,
     deletePublication,
     addLike,
     addFriend,
@@ -14,6 +15,9 @@ const {   addPublication,
 router.use(validarJWT);
 
 router.post('/addPublication', addPublication);
+router.post('/getPublicacionesPorId', getPublicacionesPorId);
+
+
 router.get('/getPublications', getPublications);
 router.delete('/deletePublication/:id', deletePublication);
 router.put('/addLike/:id', addLike);

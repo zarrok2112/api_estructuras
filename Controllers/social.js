@@ -1,27 +1,64 @@
-const Comentario = require('../models/comentario');
+const ComentarioScheme = require('../models/comentarioScheme');
+const Usuario = require('../models/Usuario')
 const relationShip = require('../models/relationShip');
 
 const addPublication = async (req, res = express.request) => { 
-    const{creator, title, description, dislikes, likes} = req.body;
+    const{title, description} = req.body;
+    const{uid, name} = req;
+    const user = await Usuario.findById(uid);
+    const nameUser = user.name;
 
     try{
-         const NEWcomentario = new Comentario(req.body);
-         await NEWcomentario.save();
-         return res.status(200).json({
-                ok: true,
-                msg: 'Comentario creado correctamente',
-    });
-    }catch(error){
-        console.log(error);
-       return res.status(500).json({
-            ok: false,
-            msg: 'Error Interno'
+        const publication = new ComentarioScheme({
+            title: title,
+            description: description,
+            usuario:uid
+        });
+        
+        await publication.save();
+
+        console.log(uid);
+        return res.status(200).json({
+            name:nameUser,
+            title: title,
+            descripcion:description
+            });
+    }catch(err){
+        console.log(err);
+        return res.status(500).json({
+            ok:false,
+            msg:'Error interno'
         })
     }
 };
+
+const getPublicacionesPorId = async (req, res) => {
+    const{uid} = req;
+  
+    try {
+      const publicaciones = await ComentarioScheme.find({ usuario: uid });
+  
+      return res.json({
+        ok: true,
+        publicaciones: publicaciones
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+        ok: false,
+        msg: 'Error interno'
+      });
+    }
+  };
+  
+  module.exports = {
+    getPublicacionesPorId
+  };
+
+
 const getPublications = async (req, res) => {
     try {
-        const publications = await Comentario.find();
+        const publications = await ComentarioScheme.find();
         return res.status(200).json({
             ok: true,
             publications
@@ -38,7 +75,7 @@ const deletePublication = async (req, res) => {
     const { id } = req.params;
 
     try {
-        const deletedPublication = await Comentario.findByIdAndDelete(id);
+        const deletedPublication = await ComentarioScheme.findByIdAndDelete(id);
 
         if (!deletedPublication) {
             return res.status(404).json({
@@ -191,11 +228,6 @@ const deleteFriend = async (req, res) => {
         if (!friend) {
             return res.status(404).json({
                 ok
-
-
-
-
-
             });
         }
     } catch (error) {
@@ -205,6 +237,7 @@ const deleteFriend = async (req, res) => {
 
     module.exports = {
         addPublication,
+        getPublicacionesPorId,
         getPublications,
         deletePublication,
         addLike,
