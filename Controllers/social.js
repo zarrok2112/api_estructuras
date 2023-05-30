@@ -57,20 +57,24 @@ const getPublicacionesPorId = async (req, res) => {
 
 
 const getPublications = async (req, res) => {
+    const { uid } = req;
+
     try {
-        const publications = await ComentarioScheme.find();
-        return res.status(200).json({
-            ok: true,
-            publications
-        });
+      const publicaciones = await ComentarioScheme.find({ usuario: uid }).populate('usuario');
+  
+      return res.json({
+        ok: true,
+        publicaciones: publicaciones
+      });
     } catch (error) {
-        console.log(error);
-        return res.status(500).json({
-            ok: false,
-            msg: 'Error interno'
-        });
+      console.log(error);
+      return res.status(500).json({
+        ok: false,
+        msg: 'Error interno'
+      });
     }
-};
+  };
+
 const deletePublication = async (req, res) => {
     const { id } = req.params;
 
