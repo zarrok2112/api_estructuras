@@ -15,7 +15,8 @@ class Server {
         this.paths = {
             auth: '/api/auth',
             task: '/api/task',
-            social: '/api/social'
+            social: '/api/social',
+            user: '/api/user'
         }
 
         this.connectToDB()
@@ -39,7 +40,9 @@ class Server {
         this.app.use(this.paths.auth, require('../routes/auth'))
         this.app.use(this.paths.task, require('../routes/task'))
         this.app.use(this.paths.social, require('../routes/social'))
+        this.app.use(this.paths.user, require('../routes/user'))
     }
+    
     listen(){
         this.app.listen(this.port,() => {
             console.log('El servidor está corriendo en el puerto: ', process.env.PORT)

@@ -31,38 +31,53 @@ const addPublication = async (req, res = express.request) => {
 };
 
 const getPublicacionesPorId = async (req, res) => {
-    const{uid} = req;
-  
-    try {
-      const publicaciones = await ComentarioScheme.find({ usuario: uid });
-  
-      return res.json({
-        ok: true,
-        publicaciones: publicaciones
-      });
-    } catch (error) {
-      console.log(error);
-      return res.status(500).json({
-        ok: false,
-        msg: 'Error interno'
-      });
+    const id = req.body.id;
+    if(id){
+        try {
+            const publicaciones = await ComentarioScheme.find({ usuario: id }).populate('usuario');
+        
+            return res.json({
+              ok: true,
+              publicaciones: publicaciones
+            });
+          } catch (error) {
+            console.log(error);
+            return res.status(500).json({
+              ok: false,
+              msg: 'Error interno'
+            });
+          }
+    } else{ 
+        const{uid} = req;
+        try {
+        const publicaciones = await ComentarioScheme.find({ usuario: uid });
+    
+        return res.json({
+            ok: true,
+            publicaciones: publicaciones
+        });
+        } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            ok: false,
+            msg: 'Error interno'
+        });
+        }
     }
+    
   };
   
-  module.exports = {
-    getPublicacionesPorId
-  };
-
 
 const getPublications = async (req, res) => {
     const { uid } = req;
 
     try {
-      const publicaciones = await ComentarioScheme.find({ usuario: uid }).populate('usuario');
+      const publicaciones = await ComentarioScheme.find().populate('usuario');
   
       return res.json({
         ok: true,
         publicaciones: publicaciones
+        
       });
     } catch (error) {
       console.log(error);
@@ -140,74 +155,49 @@ const addLike = async (req, res) => {
 };
 
 const addFriend = async (req, res) => {
-    const { userId, friendId } = req.body;
+    const friend = req.body.id;
+    const{uid} = req;
 
     try {
-        // Verificar si el usuario existe
-        const user = await User.findById(userId);
-
-        if (!user) {
-            return res.status(404).json({
-                ok: false,
-                msg: 'Usuario no encontrado'
-            });
-        }
-
-        // Verificar si el amigo existe
-        const friend = await User.findById(friendId);
-
-        if (!friend) {
-            return res.status(404).json({
-                ok: false,
-                msg: 'Amigo no encontrado'
-            });
-        }
-
-        // Agregar el amigo a la lista de amigos del usuario y guardar el usuario
-        user.friends.push(friendId);
-        await user.save();
+        relation = new relationShip({
+            user: uid,
+            friend: friend
+        });
+        await relation.save();
 
         return res.status(200).json({
             ok: true,
             msg: 'Amigo agregado correctamente'
         });
-    } catch (error) {
+        
+    }catch (error) {
         console.log(error);
         return res.status(500).json({
             ok: false,
             msg: 'Error interno'
         });
     }
+
 };
 
 const getFriends = async (req, res) => {
-    const { userId } = req.params;
-
+    const { uid } = req;
     try {
-        // Verificar si el usuario existe
-        const user = await User.findById(userId);
-
-        if (!user) {
-            return res.status(404).json({
-                ok: false,
-                msg: 'Usuario no encontrado'
-            });
-        }
-
-        // Obtener la lista de amigos del usuario
-        const friends = await User.find({ _id: { $in: user.friends } });
-
-        return res.status(200).json({
-            ok: true,
-            friends
-        });
+      const friends = await relationShip.find({ user: uid }).populate('friend');
+  
+      return res.json({
+        ok: true,
+        friends: friends
+        
+      });
     } catch (error) {
-        console.log(error);
-        return res.status(500).json({
-            ok: false,
-            msg: 'Error interno'
-        });
+      console.log(error);
+      return res.status(500).json({
+        ok: false,
+        msg: 'Error interno'
+      });
     }
+
 };
 
 const deleteFriend = async (req, res) => {

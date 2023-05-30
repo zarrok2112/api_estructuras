@@ -2,13 +2,13 @@ const {Schema, model} = require('mongoose');
 
 const RelationShipSchema = Schema({
     user: {
-        type: Number,
-        ref: 'User',
+        type: String,
+        ref: 'Usuario',
         required: true
     },
     friend: {
-        type: Number,
-        ref: 'User',
+        type: String,
+        ref: 'Usuario',
         required: true
     },
     relationDay: {
@@ -16,3 +16,5 @@ const RelationShipSchema = Schema({
         default: Date.now
     },
 });
+
+module.exports = model('relationShip', RelationShipSchema)

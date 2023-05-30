@@ -37,7 +37,7 @@ const login = async(req, res = express.response) => {
     const{email, password} = req.body
     try{
         console.log(email)
-        let usuario = await Usuario.findOne({email})
+        let usuario = await Usuario.findOne({email}).select('+password')
         if(!usuario){
             return res.status(400).json({
                 ok:false,

@@ -15,7 +15,8 @@ const UsuarioSchema = Schema({
 
     password: {
         type: String,
-        require: true
+        require: true,
+        select: false
     }
 
 })
