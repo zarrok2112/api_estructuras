@@ -57,6 +57,7 @@ const login = async(req, res = express.response) => {
         res.status(200).json({
             ok: true,
             token,
+            id:usuario.id,
             name:usuario.name,
             email:usuario.email
         })
